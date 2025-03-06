@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import bcrypt from "bcryptjs";
+
 
 function Registerpage() {;
   const[username,setUsername]=useState("");
@@ -11,6 +11,7 @@ function Registerpage() {;
       method : 'POST',
       body: JSON.stringify({username,password}),
       headers:{'Content-Type':'application/json'},
+      
     })
     console.log(response)
     if(response.status!== 200){
