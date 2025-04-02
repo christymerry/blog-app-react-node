@@ -31,7 +31,14 @@ app.post('/register',async (req,res)=>{
 
 app.post('/login',async (req,res)=>{
     const{username,password} =req.body;
-    const userDoc = await User.findOne({username});
+    try {
+        const userDoc = await User.findOne({ username });
+
+        // If user does not exist, return error
+        if (!userDoc) {
+            return res.status(401).json({ error: 'Wrong credentials' });
+        }
+
     const passOk = bcrypt.compareSync(password, userDoc.password); // true
     
     if(passOk){
@@ -40,12 +47,20 @@ app.post('/login',async (req,res)=>{
             if(err)throw err;
             res.cookie('token',{token}).json('ok')
         })
+    } else {
+        return res.status(401).json({ error: 'Wrong credentials' });
+    }
+} catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
     }
 })
 
 app.get('/profile',(req,res)=>{
     
 })
+
+app.get
 app.listen(4000);
 //febK4XM67qahM8qj
 
