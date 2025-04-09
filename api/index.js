@@ -47,7 +47,7 @@ app.post('/login',async (req,res)=>{
         jwt.sign({username,id:userDoc._id},secret,{}, (err,token)=>{
 
             if(err)throw err;
-            res.cookie('token',{token}).json('ok')
+            res.cookie('token',{token}).json( { id: userDoc._id,username})
         })
     } else {
         return res.status(401).json({ error: 'Wrong credentials' });
@@ -67,6 +67,9 @@ app.get('/profile',(req,res)=>{
     
 })
 
+app.post('/logout',(req,res)=>{
+    res.cookie('token','').json('ok')
+})
 
 app.listen(4000);
 //febK4XM67qahM8qj
